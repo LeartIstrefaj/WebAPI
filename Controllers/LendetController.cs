@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Database.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using System.Reflection.Metadata.Ecma335;
+using WebAPI_App.Repository;
 
 namespace WebAPI_App.Controllers
 {
@@ -9,9 +12,11 @@ namespace WebAPI_App.Controllers
     public class LendetController : ControllerBase
     {
         private readonly ILogger<LendetController> _logger;
-        public LendetController(ILogger<LendetController> logger)
+        private readonly IRepository<Lendet> _repository;
+        public LendetController(ILogger<LendetController> logger, IRepository<Lendet> respository)
         {
             _logger = logger;
+            _repository = respository;
         }
 
         //[HttpGet("[action]")]
@@ -33,15 +38,11 @@ namespace WebAPI_App.Controllers
             return obj;
         }
 
-        public TestKlasa PostTest()
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public async Task<Lendet> MerrLenden(int id, CancellationToken token)
         {
-            _logger.LogInformation("testi i pare si POST");
-
-            var obj = new TestKlasa();
-            obj.Mosha = 19;
-            obj.Emri = "John";
-
-            return obj;   
+            return await _repository.Get(id, token);
         }
 
         
