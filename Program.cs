@@ -1,3 +1,5 @@
+using Database.Context;
+using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 namespace WebAPI_App
 {
@@ -13,8 +15,10 @@ namespace WebAPI_App
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            
             builder.Host.UseNLog(new NLogAspNetCoreOptions { RemoveLoggerFactoryFilter = false});
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBCon")));
              
             var app = builder.Build();
             

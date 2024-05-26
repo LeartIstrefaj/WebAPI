@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WebAPI_App.Controllers
 {
@@ -13,11 +14,37 @@ namespace WebAPI_App.Controllers
             _logger = logger;
         }
 
+        //[HttpGet("[action]")]
+        //public string GetTest()
+        //{
+        //    _logger.LogInformation("testi i pare");
+        //    return "Testi 1";
+        //}
+
         [HttpGet("[action]")]
-        public string GetTest()
+        public TestKlasa GetTest()
         {
             _logger.LogInformation("testi i pare");
-            return "Testi 1";
+
+            var obj = new TestKlasa();
+            obj.Mosha = 21;
+            obj.Emri = "Leart";
+
+            return obj;
         }
-    }
+
+        public TestKlasa PostTest()
+        {
+            _logger.LogInformation("testi i pare si POST");
+
+            var obj = new TestKlasa();
+            obj.Mosha = 19;
+            obj.Emri = "John";
+
+            return obj;   
+        }
+
+        
+            
+     }
 }
